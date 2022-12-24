@@ -34,7 +34,6 @@ def apply_prompt(p, x, xs):
     p.prompt = p.prompt.replace(xs[0], x)
     p.negative_prompt = p.negative_prompt.replace(xs[0], x)
 
-
 def apply_order(p, x, xs):
     token_order = []
 
@@ -155,6 +154,7 @@ axis_options = [
     AxisOption("Steps", int, apply_field("steps"), format_value_add_label, None),
     AxisOption("CFG Scale", float, apply_field("cfg_scale"), format_value_add_label, None),
     AxisOption("Prompt S/R", str, apply_prompt, format_value, None),
+    AxisOption("Prompt S/R transposed", int, do_nothing, format_value_add_label, None),
     AxisOption("Prompt order", str_permutations, apply_order, format_value_join_list, None),
     AxisOption("Sampler", str, apply_sampler, format_value, confirm_samplers),
     AxisOption("Checkpoint name", str, apply_checkpoint, format_value, confirm_checkpoints),
@@ -325,6 +325,9 @@ class Script(scripts.Script):
                 valslist = valslist_ext
             elif opt.type == str_permutations:
                 valslist = list(permutations(valslist))
+            elif opt.label == "Prompt S/R Transposed":
+                p.transposed_prompts = valslist
+                valslist = range(p.n_iter)
 
             valslist = [opt.type(x) for x in valslist]
 
@@ -365,8 +368,13 @@ class Script(scripts.Script):
 
         def cell(x, y):
             pc = copy(p)
-            x_opt.apply(pc, x, xs)
-            y_opt.apply(pc, y, ys)
+            if x_opt.label == "Prompt S/R Transposed":
+                pc.n_iter = len(p.transposed_prompts)
+                pc.all_prompts = [p.prompt.replace(p.transposed_prompts[0], x) for x in p.transposed_prompts]
+                pc.all_seeds = [pc.seed + x] * len(p.transposed_prompts)
+            else:
+                x_opt.apply(pc, x, xs)
+                y_opt.apply(pc, y, ys)
 
             return process_images(pc)
 
