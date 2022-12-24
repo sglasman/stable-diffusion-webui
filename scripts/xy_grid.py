@@ -413,8 +413,9 @@ class Script(scripts.Script):
             pc = copy(p)
             if x_opt.label == "Prompt S/R transposed":
                 pc.n_iter = len(p.transposed_prompts)
-                pc.all_prompts = [p.prompt.replace(p.transposed_prompts[0], x) for x in p.transposed_prompts]
+                pc.all_prompts = [p.prompt.replace(p.transposed_prompts[0], q) for q in p.transposed_prompts]
                 pc.all_seeds = [pc.seed + x] * len(p.transposed_prompts)
+                print(f"All prompts at cell({x}, {y}): {pc.all_prompts}")
             else:
                 x_opt.apply(pc, x, xs)
                 y_opt.apply(pc, y, ys)

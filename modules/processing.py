@@ -501,6 +501,8 @@ def process_images_inner(p: StableDiffusionProcessing) -> Processed:
 
     if type(p.prompt) == list:
         p.all_prompts = [shared.prompt_styles.apply_styles_to_prompt(x, p.styles) for x in p.prompt]
+    elif p.transposed_prompts:
+        pass
     else:
         p.all_prompts = p.batch_size * p.n_iter * [shared.prompt_styles.apply_styles_to_prompt(p.prompt, p.styles)]
 
