@@ -367,7 +367,7 @@ class Script(scripts.Script):
                 valslist = valslist_ext
             elif opt.type == str_permutations:
                 valslist = list(permutations(valslist))
-            elif opt.label == "Prompt S/R Transposed":
+            elif opt.label == "Prompt S/R transposed":
                 p.transposed_prompts = valslist
                 valslist = range(p.n_iter)
 
@@ -410,7 +410,7 @@ class Script(scripts.Script):
 
         def cell(x, y):
             pc = copy(p)
-            if x_opt.label == "Prompt S/R Transposed":
+            if x_opt.label == "Prompt S/R transposed":
                 pc.n_iter = len(p.transposed_prompts)
                 pc.all_prompts = [p.prompt.replace(p.transposed_prompts[0], x) for x in p.transposed_prompts]
                 pc.all_seeds = [pc.seed + x] * len(p.transposed_prompts)
