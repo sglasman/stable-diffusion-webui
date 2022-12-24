@@ -370,6 +370,7 @@ class Script(scripts.Script):
             elif opt.label == "Prompt S/R transposed":
                 p.transposed_prompts = valslist
                 valslist = range(p.n_iter)
+                return valslist
 
             valslist = [opt.type(x) for x in valslist]
 
