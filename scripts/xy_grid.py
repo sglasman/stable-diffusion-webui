@@ -189,7 +189,7 @@ axis_options = [
     AxisOption("Steps", int, apply_field("steps"), format_value_add_label, None),
     AxisOption("CFG Scale", float, apply_field("cfg_scale"), format_value_add_label, None),
     AxisOption("Prompt S/R", str, apply_prompt, format_value, None),
-    AxisOption("Prompt S/R transposed", int, do_nothing, format_value_add_label, None),
+    AxisOption("Prompt S/R transposed", str, do_nothing, format_value_add_label, None),
     AxisOption("Prompt order", str_permutations, apply_order, format_value_join_list, None),
     AxisOption("Sampler", str, apply_sampler, format_value, confirm_samplers),
     AxisOption("Checkpoint name", str, apply_checkpoint, format_value, confirm_checkpoints),
