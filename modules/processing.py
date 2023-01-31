@@ -508,6 +508,8 @@ def process_images_inner(p: StableDiffusionProcessing) -> Processed:
 
     if type(p.negative_prompt) == list:
         p.all_negative_prompts = [shared.prompt_styles.apply_negative_styles_to_prompt(x, p.styles) for x in p.negative_prompt]
+    elif p.transposed_prompts:
+        pass
     else:
         p.all_negative_prompts = p.batch_size * p.n_iter * [shared.prompt_styles.apply_negative_styles_to_prompt(p.negative_prompt, p.styles)]
 
